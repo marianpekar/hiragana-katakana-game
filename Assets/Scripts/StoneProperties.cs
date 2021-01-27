@@ -10,7 +10,7 @@ public enum Alphabet {
 public enum Sign {
     N, 
 
-    Wa, Wi, Wo, 
+    Wa, Wo, 
     
     Ra, Ri, Ru, Re, Ro,
     
@@ -24,7 +24,7 @@ public enum Sign {
 
     Na, Ni, Nu, Ne, No,
 
-    Ta, Chi, Tsi, Te, To,
+    Ta, Chi, Tsu, Te, To,
     Da,      Dzu, De, Do,
 
     Sa, Shi, Su, Se, So,
