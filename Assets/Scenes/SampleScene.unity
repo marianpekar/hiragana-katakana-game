@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stonesPool: {fileID: 1149177601}
-  gameStonesPairCount: 2
+  gameStonesPairCount: 9
 --- !u!4 &1149075336
 Transform:
   m_ObjectHideFlags: 0
