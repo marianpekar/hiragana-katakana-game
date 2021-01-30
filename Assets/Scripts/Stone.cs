@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Stone : MonoBehaviour
 {
-    private StoneProperties StoneProperties = new StoneProperties();
+    private StoneProperties stoneProperties = new StoneProperties();
 
-    public void SetSign(Sign sign) => StoneProperties.Sign = sign;
-    public Sign GetSign() => StoneProperties.Sign;
+    public void SetSign(Sign sign) => stoneProperties.Sign = sign;
+    public Sign GetSign() => stoneProperties.Sign;
 
-    public void SetAlphabet(Alphabet type) => StoneProperties.Alphabet = type;
-    public Alphabet GetAlphabet() => StoneProperties.Alphabet;
+    public void SetAlphabet(Alphabet type) => stoneProperties.Alphabet = type;
+    public Alphabet GetAlphabet() => stoneProperties.Alphabet;
 }

@@ -10,7 +10,7 @@ public class StonesPool : Singleton<StonesPool>
     private readonly Dictionary<Sign, GameObject> hiraganaStones = new Dictionary<Sign, GameObject>();
     private readonly Dictionary<Sign, GameObject> katakanaStones = new Dictionary<Sign, GameObject>();
 
-    void Start()
+    public void Initialize()
     {
         Array alphabets = Enum.GetValues(typeof(Alphabet));
         Array signs = Enum.GetValues(typeof(Sign));
@@ -27,6 +27,11 @@ public class StonesPool : Singleton<StonesPool>
             }
     }
 
-    public GameObject GetHiraganaStone(Sign sign) => hiraganaStones[sign];
-    public GameObject GetKatakanaStone(Sign sign) => katakanaStones[sign];
+    public GameObject GetHiraganaStone(Sign sign) => GetFromPool(hiraganaStones[sign]);
+    public GameObject GetKatakanaStone(Sign sign) => GetFromPool(katakanaStones[sign]);
+
+    private GameObject GetFromPool(GameObject go) {        
+        go.SetActive(true);
+        return go;
+    }
 }
