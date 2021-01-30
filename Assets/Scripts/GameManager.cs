@@ -10,8 +10,7 @@ public class GameManager : MonoBehaviour
     private const int gameStonesPairCount = 16;
     private const int stonesPerRow = 4;
 
-    private GameObject[] stonesGO = new GameObject[gameStonesPairCount * 2];
-
+    private GameObject[] currentStones = new GameObject[gameStonesPairCount * 2];
     private List<Sign> currentSigns = new List<Sign>();
 
     private void Start()
@@ -30,6 +29,9 @@ public class GameManager : MonoBehaviour
     {
         Array signs = Enum.GetValues(typeof(Sign));
 
+        GameObject[] hiraganaStones = new GameObject[gameStonesPairCount];
+        GameObject[] katakanaStones = new GameObject[gameStonesPairCount];
+
         for (int i = 0; i < gameStonesPairCount; i++)
         {
             Sign randomSign = (Sign)signs.GetValue(UnityEngine.Random.Range(0, signs.Length));
@@ -41,9 +43,18 @@ public class GameManager : MonoBehaviour
             }
 
             currentSigns.Add(randomSign);
-            stonesGO[i] = stonesPool.GetHiraganaStone(randomSign);
-            stonesGO[gameStonesPairCount + i] = stonesPool.GetKatakanaStone(randomSign);
+            hiraganaStones[i] = stonesPool.GetHiraganaStone(randomSign);
+            katakanaStones[i] = stonesPool.GetKatakanaStone(randomSign);
         }
+
+        hiraganaStones.Shuffle();
+        katakanaStones.Shuffle();
+
+        for (int i = 0; i < gameStonesPairCount; i++) {
+            currentStones[i] = hiraganaStones[i];
+            currentStones[gameStonesPairCount + i] = katakanaStones[i];
+        }
+
     }
 
     private void PlaceStones()
@@ -52,7 +63,7 @@ public class GameManager : MonoBehaviour
         float z = 0;
         float j = 0;
         float c = 0;
-        foreach (GameObject stone in stonesGO)
+        foreach (GameObject stone in currentStones)
         {
             if (z % stonesPerRow == 0)
             {
