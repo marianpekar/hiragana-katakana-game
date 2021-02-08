@@ -147,6 +147,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -251,7 +266,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -261,7 +276,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.32
+    m_Strength: 0.257
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -675,7 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2be10bce071f42438dec26ec092ac2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedStone: {fileID: 0}
+  selectedStoneGO: {fileID: 0}
   circle: {fileID: 437545693}
   circleOffset: {x: 0, y: 1.5, z: 0}
   moveSpeed: 16

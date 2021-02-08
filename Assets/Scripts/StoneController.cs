@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class StoneController : MonoBehaviour
@@ -21,11 +22,16 @@ public class StoneController : MonoBehaviour
     private bool isMoving;
     private Vector3 desiredPosition;
 
+    private Vector3 originalCircleScale;
+
     private Sign selectedStoneSign;
 
     private void Start()
     {
         mainCamera = Camera.main;
+        originalCircleScale = circle.transform.localScale;
+        circle.transform.localScale = Vector3.zero;
+
     }
 
     void Update()
@@ -61,14 +67,16 @@ public class StoneController : MonoBehaviour
 
             if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity, layerMask: stoneLayerMask))
             {
-                if (hit.collider.GetComponent<Stone>().IsDisolving) return;
-
+                if (hit.collider.GetComponent<Stone>().IsDisolving || hit.collider.gameObject == selectedStoneGO) return;
+           
                 selectedStoneGO = hit.collider.gameObject;
-
                 selectedStoneSign = hit.collider.gameObject.GetComponent<Stone>().GetSign();
 
                 Vector3 selectedStonePosition = new Vector3(selectedStoneGO.transform.position.x, selectedStoneGO.transform.position.y, selectedStoneGO.transform.position.z);
                 circle.transform.position = selectedStonePosition + circleOffset;
+
+                circle.transform.localScale = Vector3.zero;
+                StartCoroutine(SmoothScaleCircle(originalCircleScale));
             }
         }
     }
@@ -80,8 +88,12 @@ public class StoneController : MonoBehaviour
             if (hit.collider.gameObject.GetComponent<Stone>()) {
                 var otherStone = hit.collider.gameObject.GetComponent<Stone>();
                 if(otherStone.GetSign() == selectedStoneSign) {
+
                     selectedStoneGO.GetComponent<Stone>().Dissolve();
                     otherStone.Dissolve();
+
+                    StartCoroutine(SmoothScaleCircle(Vector3.zero));
+
                     selectedStoneGO = null;
                 }
             }
@@ -101,6 +113,16 @@ public class StoneController : MonoBehaviour
         if (Vector3.Distance(selectedStoneGO.transform.position, desiredPosition) < 0.01f) {
             selectedStoneGO.transform.position = desiredPosition;
             isMoving = false;
+        }
+    }
+
+    private IEnumerator SmoothScaleCircle(Vector3 targetScale) {
+        var currentScale = circle.transform.localScale;
+        while (Mathf.Abs(targetScale.magnitude - currentScale.magnitude) >= 0.01f)
+        {
+            currentScale = circle.transform.localScale;
+            circle.transform.localScale += targetScale.magnitude > currentScale.magnitude ? new Vector3(1f, 1f, 1f) : -new Vector3(1f, 1f, 1f);
+            yield return new WaitForSeconds(.003f);
         }
     }
 }
