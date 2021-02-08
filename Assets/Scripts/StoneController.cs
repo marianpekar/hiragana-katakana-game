@@ -12,6 +12,13 @@ public class StoneController : MonoBehaviour
     [SerializeField]
     private Vector3 circleOffset = new Vector3(0, 1.2f, 0);
 
+    [SerializeField]
+    float circleScaleSpeed = 0.0025f;
+
+    private Vector3 originalCircleScale;
+    private Vector3 targetCircleScale;
+    bool isCircleShrinking;
+
     int stoneLayerMask = ~3; // = Stone, see Layers
 
     private Camera mainCamera;
@@ -21,8 +28,6 @@ public class StoneController : MonoBehaviour
 
     private bool isMoving;
     private Vector3 desiredPosition;
-
-    private Vector3 originalCircleScale;
 
     private Sign selectedStoneSign;
 
@@ -69,6 +74,10 @@ public class StoneController : MonoBehaviour
             {
                 if (hit.collider.GetComponent<Stone>().IsDisolving || hit.collider.gameObject == selectedStoneGO) return;
            
+                if (isCircleShrinking) {
+                    CancelInvoke(nameof(SmoothScaleCircle));
+                }
+
                 selectedStoneGO = hit.collider.gameObject;
                 selectedStoneSign = hit.collider.gameObject.GetComponent<Stone>().GetSign();
 
@@ -76,7 +85,8 @@ public class StoneController : MonoBehaviour
                 circle.transform.position = selectedStonePosition + circleOffset;
 
                 circle.transform.localScale = Vector3.zero;
-                StartCoroutine(SmoothScaleCircle(originalCircleScale));
+                targetCircleScale = originalCircleScale;
+                InvokeRepeating(nameof(SmoothScaleCircle), circleScaleSpeed, circleScaleSpeed);
             }
         }
     }
@@ -92,7 +102,9 @@ public class StoneController : MonoBehaviour
                     selectedStoneGO.GetComponent<Stone>().Dissolve();
                     otherStone.Dissolve();
 
-                    StartCoroutine(SmoothScaleCircle(Vector3.zero));
+                    targetCircleScale = Vector3.zero;
+                    InvokeRepeating(nameof(SmoothScaleCircle), circleScaleSpeed, circleScaleSpeed);
+                    isCircleShrinking = true;
 
                     selectedStoneGO = null;
                 }
@@ -116,13 +128,11 @@ public class StoneController : MonoBehaviour
         }
     }
 
-    private IEnumerator SmoothScaleCircle(Vector3 targetScale) {
-        var currentScale = circle.transform.localScale;
-        while (Mathf.Abs(targetScale.magnitude - currentScale.magnitude) >= 0.01f)
-        {
-            currentScale = circle.transform.localScale;
-            circle.transform.localScale += targetScale.magnitude > currentScale.magnitude ? new Vector3(1f, 1f, 1f) : -new Vector3(1f, 1f, 1f);
-            yield return new WaitForSeconds(.003f);
+    private void SmoothScaleCircle() {
+        circle.transform.localScale += targetCircleScale.sqrMagnitude > circle.transform.localScale.sqrMagnitude ? new Vector3(1f, 1f, 1f) : -new Vector3(1f, 1f, 1f);
+
+        if(Mathf.Abs(circle.transform.localScale.sqrMagnitude - targetCircleScale.sqrMagnitude) <= 0.01f) {
+            CancelInvoke(nameof(SmoothScaleCircle));
         }
     }
 }
