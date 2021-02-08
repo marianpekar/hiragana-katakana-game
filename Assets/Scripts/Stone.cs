@@ -19,12 +19,15 @@ public class Stone : MonoBehaviour
     }
 
     private IEnumerator DissolveCoroutine() {
-        var material = gameObject.GetComponent<MeshRenderer>().material;
+        var meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
+        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        meshRenderer.receiveShadows = false;
 
         float newAmount = 0f;
         while(newAmount <= 1f) {
             newAmount += 0.01f;
-            material.SetFloat("_Amount", newAmount);
+            meshRenderer.material.SetFloat("_Amount", newAmount);
             yield return new WaitForSeconds(.005f);
         }
 
