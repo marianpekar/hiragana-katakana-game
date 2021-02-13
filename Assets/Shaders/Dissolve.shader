@@ -13,6 +13,7 @@ Shader "Custom/Dissolve"
     {
         Tags { "RenderType"="Opaque" }
         LOD 200
+        Cull Off
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
@@ -31,6 +32,7 @@ Shader "Custom/Dissolve"
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
+
         sampler2D _DissolveTexture;
         half _Amount;
 
@@ -45,6 +47,7 @@ Shader "Custom/Dissolve"
         {
             half dissolve_value = tex2D(_DissolveTexture, IN.uv_MainTex).r;
             clip(dissolve_value - _Amount);
+            o.Emission = fixed3(1, 1, 1) * step(dissolve_value - _Amount, 0.05f);
 
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
