@@ -9,6 +9,32 @@ public class Stone : MonoBehaviour
 
     private StoneProperties stoneProperties = new StoneProperties();
 
+    public new ParticleSystem particleSystem;
+    public new Light light;
+    public MeshRenderer meshRenderer;
+
+    [SerializeField]
+    private float DissolveAmountPerStep = 0.01f;
+
+    [SerializeField]
+    private float DissolveSpeed = 0.01f;
+
+    [SerializeField]
+    private float LightGlowSpeed = 0.01f;
+
+    [SerializeField]
+    private float LightGlowIntensityPerStep = 0.01f;
+
+    [SerializeField]
+    private float LightGlowHighCap = 1.3f;
+
+    private void Awake()
+    {
+        particleSystem = GetComponentInChildren<ParticleSystem>();
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        light = GetComponentInChildren<Light>();
+    }
+
     public void SetSign(Sign sign) => stoneProperties.Sign = sign;
     public Sign GetSign() => stoneProperties.Sign;
 
@@ -16,23 +42,47 @@ public class Stone : MonoBehaviour
     public Alphabet GetAlphabet() => stoneProperties.Alphabet;
 
     public void Dissolve() {
+        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        meshRenderer.receiveShadows = false;
+
         IsDisolving = true;
-        InvokeRepeating(nameof(DisolveCoroutine), 0.01f, 0.01f);
+        particleSystem.Play();
+        InvokeRepeating(nameof(DisolveCoroutine), DissolveSpeed, DissolveSpeed);
+        InvokeRepeating(nameof(GlowStartCoroutine), LightGlowSpeed, LightGlowSpeed);
+        Invoke(nameof(Disable), 10f);
     }
 
     private void DisolveCoroutine()
     {
-        var meshRenderer = gameObject.GetComponent<MeshRenderer>();
-
-        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        meshRenderer.receiveShadows = false;
-
-        dissolveAmount += 0.01f;
+        dissolveAmount += DissolveAmountPerStep;
         meshRenderer.material.SetFloat("_Amount", dissolveAmount);
 
-        if(dissolveAmount >= 1.0f) {
+        if (dissolveAmount >= 1.0f) {
             CancelInvoke(nameof(DisolveCoroutine));
-            Destroy(gameObject);
+            GetComponent<Collider>().enabled = false;
         }
+    }
+    public void GlowStartCoroutine()
+    {
+        light.intensity += LightGlowIntensityPerStep;
+
+        if (light.intensity >= LightGlowHighCap)
+        {
+            CancelInvoke(nameof(GlowStartCoroutine));
+            InvokeRepeating(nameof(GlowEndCoroutine), LightGlowSpeed, LightGlowSpeed / 2f);
+        }
+    }
+
+    public void GlowEndCoroutine()
+    {
+        light.intensity -= LightGlowIntensityPerStep;
+
+        if (light.intensity <= 0.0f)
+        {
+            CancelInvoke(nameof(GlowEndCoroutine));
+        }
+    }
+    private void Disable() {
+        this.gameObject.SetActive(false);
     }
 }
