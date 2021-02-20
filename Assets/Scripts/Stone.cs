@@ -30,6 +30,12 @@ public class Stone : MonoBehaviour
     [SerializeField]
     private float LightGlowHighCap = 1.3f;
 
+    [SerializeField]
+    private float DelayBeforeReadSign = 0.33f;
+
+    [SerializeField]
+    private float DelayBeforeDisableAfterDissolve = 10f;
+
     private void Awake()
     {
         particleSystem = GetComponentInChildren<ParticleSystem>();
@@ -44,16 +50,22 @@ public class Stone : MonoBehaviour
     public Alphabet GetAlphabet() => stoneProperties.Alphabet;
 
     public void Dissolve() {
-        AudioManager.ReadSign(stoneProperties.Sign);
+        IsDisolving = true;
+
+        Invoke(nameof(ReadSign), DelayBeforeReadSign);
 
         meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         meshRenderer.receiveShadows = false;
 
-        IsDisolving = true;
         particleSystem.Play();
+
         InvokeRepeating(nameof(DisolveCoroutine), DissolveSpeed, DissolveSpeed);
         InvokeRepeating(nameof(GlowStartCoroutine), LightGlowSpeed, LightGlowSpeed);
-        Invoke(nameof(Disable), 10f);
+        Invoke(nameof(Disable), DelayBeforeDisableAfterDissolve);
+    }
+
+    private void ReadSign() {
+        AudioManager.ReadSign(stoneProperties.Sign);
     }
 
     private void DisolveCoroutine()
