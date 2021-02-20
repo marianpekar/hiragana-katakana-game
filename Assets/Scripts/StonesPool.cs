@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StonesPool : Singleton<StonesPool>
+public class StonesPool : MonoBehaviour
 {
     [SerializeField]
     StoneFactory stoneFactory = null;

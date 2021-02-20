@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class StoneFactory : Singleton<StoneFactory>
+public class StoneFactory : MonoBehaviour
 {
+    [SerializeField]
+    private AudioManager audioManager = null;
+
     [SerializeField]
     private GameObject stonePrefab = null;
 
@@ -22,17 +25,17 @@ public class StoneFactory : Singleton<StoneFactory>
         var StoneGO = Instantiate(stonePrefab);
         StoneGO.name = $"Stone_{alphabet}_{sign}";
 
-        var Stone = StoneGO.AddComponent<Stone>();
-        Stone.SetAlphabet(alphabet);
-        Stone.SetSign(sign);
+        var stone = StoneGO.AddComponent<Stone>();
+        stone.SetAlphabet(alphabet);
+        stone.SetSign(sign);
+
+        stone.AudioManager = audioManager;
 
         var material = new Material(stoneMaterial);
-
         var texture = Resources.Load<Texture2D>($"Textures/{alphabet}_{sign}");
         if(texture) {
             material.SetTexture("_MainTex", texture);
         }
-
         StoneGO.GetComponent<MeshRenderer>().material = material;
 
         var particleMaterial = new Material(this.particleMaterial);

@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
             currentStones[i] = hiraganaStones[i];
             currentStones[gameStonesPairCount + i] = katakanaStones[i];
         }
-
     }
 
     private void PlaceStones()
@@ -78,6 +77,5 @@ public class GameManager : MonoBehaviour
             j++;
         }
     }
-
 }
 

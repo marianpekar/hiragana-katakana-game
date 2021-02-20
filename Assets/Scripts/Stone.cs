@@ -7,6 +7,8 @@ public class Stone : MonoBehaviour
     public bool IsDisolving { get; private set; }
     private float dissolveAmount = 0f;
 
+    public AudioManager AudioManager { get; set; }
+
     private StoneProperties stoneProperties = new StoneProperties();
 
     public new ParticleSystem particleSystem;
@@ -42,6 +44,8 @@ public class Stone : MonoBehaviour
     public Alphabet GetAlphabet() => stoneProperties.Alphabet;
 
     public void Dissolve() {
+        AudioManager.ReadSign(stoneProperties.Sign);
+
         meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         meshRenderer.receiveShadows = false;
 
