@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(StoneEffectsController))]
-public class Stone : MonoBehaviour, ISubject
+public class Stone : MonoBehaviourSubject
 {
     private StoneProperties stoneProperties = new StoneProperties();
 
@@ -29,6 +26,7 @@ public class Stone : MonoBehaviour, ISubject
     private void OnEnable()
     {
         IsDisolving = false;
+        stoneEffectsController.Undissolve();
     }
 
     public void Dissolve() {
@@ -41,26 +39,13 @@ public class Stone : MonoBehaviour, ISubject
     }
 
     private void Disable() {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
-
-    private List<IObserver> observers = new List<IObserver>();
 
     public void NotifyObservers()
     {
         foreach(var observer in observers) {
             observer.OnNotify(this);
         }
-    }
-
-    public void RegisterObserver(IObserver observer)
-    {
-        if(!observers.Contains(observer))
-            observers.Add(observer);
-    }
-
-    public void UnregisterObserver(IObserver observer)
-    {
-        observers.Remove(observer);
     }
 }

@@ -70,7 +70,7 @@ public class MarkerController : MonoBehaviour, IObserver
         }
     }
 
-    public void OnNotify(ISubject subject)
+    public void OnNotify(ISubject subject, ActionType actionType)
     {
         Stone stone = subject as Stone;
         if (stone)

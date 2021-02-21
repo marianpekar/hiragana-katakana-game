@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourSubject
 {
     [SerializeField]
     private StonesPool stonesPool;
 
-    private const int gameStonesPairCount = 16;
-    private const int stonesPerRow = 4;
+    public const int GameStonesPairCount = 16;
+    private const int StonesPerRow = 4;
 
-    private GameObject[] currentStones = new GameObject[gameStonesPairCount * 2];
-    private List<Sign> currentSigns = new List<Sign>();
+    private readonly GameObject[] currentStones = new GameObject[GameStonesPairCount * 2];
+    private readonly List<Sign> currentSigns = new List<Sign>();
 
     private void Start()
     {
@@ -25,14 +25,33 @@ public class GameManager : MonoBehaviour
         PlaceStones();
     }
 
+    public void RestartGame() {
+        for (int i = 0; i < currentStones.Length; i++)
+        {
+            currentStones[i].SetActive(false);
+            currentStones[i] = null;
+        }
+
+        CreateGame();
+    }
+
+    public void EndGame() {
+        Debug.Log("Game ends");
+
+        foreach (var observer in observers)
+        {
+            observer.OnNotify(this, ActionType.GameEnds);
+        }
+    }
+
     private void TakeStonesFromPool()
     {
         Array signs = Enum.GetValues(typeof(Sign));
 
-        GameObject[] hiraganaStones = new GameObject[gameStonesPairCount];
-        GameObject[] katakanaStones = new GameObject[gameStonesPairCount];
+        GameObject[] hiraganaStones = new GameObject[GameStonesPairCount];
+        GameObject[] katakanaStones = new GameObject[GameStonesPairCount];
 
-        for (int i = 0; i < gameStonesPairCount; i++)
+        for (int i = 0; i < GameStonesPairCount; i++)
         {
             Sign randomSign = (Sign)signs.GetValue(UnityEngine.Random.Range(0, signs.Length));
 
@@ -50,9 +69,9 @@ public class GameManager : MonoBehaviour
         hiraganaStones.Shuffle();
         katakanaStones.Shuffle();
 
-        for (int i = 0; i < gameStonesPairCount; i++) {
+        for (int i = 0; i < GameStonesPairCount; i++) {
             currentStones[i] = hiraganaStones[i];
-            currentStones[gameStonesPairCount + i] = katakanaStones[i];
+            currentStones[GameStonesPairCount + i] = katakanaStones[i];
         }
     }
 
@@ -64,13 +83,13 @@ public class GameManager : MonoBehaviour
         float c = 0;
         foreach (GameObject stone in currentStones)
         {
-            if (z % stonesPerRow == 0)
+            if (z % StonesPerRow == 0)
             {
                 z = 0;
                 x++;
             }
 
-            if (j >= gameStonesPairCount) c = 2;
+            if (j >= GameStonesPairCount) c = 2;
 
             stone.transform.position = new Vector3(x * 2 + c, 0, z * 2);
             z++;

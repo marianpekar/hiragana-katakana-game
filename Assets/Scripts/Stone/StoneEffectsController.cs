@@ -32,6 +32,11 @@ public class StoneEffectsController : MonoBehaviour
         light = GetComponentInChildren<Light>();
     }
 
+    public void Undissolve()
+    {
+        meshRenderer.material.SetFloat("_Amount", 0.0f);
+    }
+
     public void Dissolve()
     {
         meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;

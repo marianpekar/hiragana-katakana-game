@@ -9,6 +9,9 @@ public class StoneFactory : MonoBehaviour
     private MarkerController markerController = null;
 
     [SerializeField]
+    private GameEvaluator gameEvaluator = null;
+
+    [SerializeField]
     private GameObject stonePrefab = null;
 
     [SerializeField]
@@ -85,5 +88,6 @@ public class StoneFactory : MonoBehaviour
 
         stone.RegisterObserver(audioManager);
         stone.RegisterObserver(markerController);
+        stone.RegisterObserver(gameEvaluator);
     }
 }
