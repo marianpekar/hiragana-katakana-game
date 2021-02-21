@@ -7,6 +7,8 @@ public class Stone : MonoBehaviour
 {
     public AudioManager AudioManager { get; set; }
 
+    public MarkerController MarkerController { get; set; }
+
     private StoneProperties stoneProperties = new StoneProperties();
 
     private StoneEffectsController stoneEffectsController;
@@ -38,6 +40,7 @@ public class Stone : MonoBehaviour
     public void Dissolve() {
         IsDisolving = true;
 
+        MarkerController.Shrink();
         stoneEffectsController.Dissolve();
         Invoke(nameof(ReadSign), DelayBeforeReadSign);
         Invoke(nameof(Disable), DelayBeforeDisableAfterDissolve);

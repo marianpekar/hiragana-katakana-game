@@ -1,42 +1,27 @@
 using System.Collections;
 using UnityEngine;
 
-public class StoneController : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject selectedStoneGO;
-
-    [SerializeField]
-    private GameObject circle;
-
-    [SerializeField]
-    private Vector3 circleOffset = new Vector3(0, 1.2f, 0);
-
-    [SerializeField]
-    float circleScaleSpeed = 0.0025f;
-
-    private Vector3 originalCircleScale;
-    private Vector3 targetCircleScale;
-    bool isCircleShrinking;
-
-    int stoneLayerMask = ~3; // = Stone, see Layers
-
-    private Camera mainCamera;
+    private MarkerController markerController;
 
     [SerializeField]
     private float moveSpeed = 12f;
 
+    private GameObject selectedStoneGO;
+    private Sign selectedStoneSign;
+
     private bool isMoving;
     private Vector3 desiredPosition;
 
-    private Sign selectedStoneSign;
+    private Camera mainCamera;
+
+    private int stoneLayerMask = ~3; // = Stone, see Layers
 
     private void Start()
     {
         mainCamera = Camera.main;
-        originalCircleScale = circle.transform.localScale;
-        circle.transform.localScale = Vector3.zero;
-
     }
 
     void Update()
@@ -69,24 +54,15 @@ public class StoneController : MonoBehaviour
     private void SelectStone() {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-
             if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity, layerMask: stoneLayerMask))
             {
                 if (hit.collider.GetComponent<Stone>().IsDisolving || hit.collider.gameObject == selectedStoneGO) return;
            
-                if (isCircleShrinking) {
-                    CancelInvoke(nameof(SmoothScaleCircle));
-                }
-
                 selectedStoneGO = hit.collider.gameObject;
                 selectedStoneSign = hit.collider.gameObject.GetComponent<Stone>().GetSign();
 
                 Vector3 selectedStonePosition = new Vector3(selectedStoneGO.transform.position.x, selectedStoneGO.transform.position.y, selectedStoneGO.transform.position.z);
-                circle.transform.position = selectedStonePosition + circleOffset;
-
-                circle.transform.localScale = Vector3.zero;
-                targetCircleScale = originalCircleScale;
-                InvokeRepeating(nameof(SmoothScaleCircle), circleScaleSpeed, circleScaleSpeed);
+                markerController.SetPosition(selectedStonePosition);
             }
         }
     }
@@ -102,10 +78,6 @@ public class StoneController : MonoBehaviour
                     selectedStoneGO.GetComponent<Stone>().Dissolve();
                     otherStone.Dissolve();
 
-                    targetCircleScale = Vector3.zero;
-                    InvokeRepeating(nameof(SmoothScaleCircle), circleScaleSpeed, circleScaleSpeed);
-                    isCircleShrinking = true;
-
                     selectedStoneGO = null;
                 }
             }
@@ -120,7 +92,7 @@ public class StoneController : MonoBehaviour
     private void Move()
     {
         selectedStoneGO.transform.position = Vector3.Lerp(selectedStoneGO.transform.position, desiredPosition, Time.deltaTime * moveSpeed);
-        circle.transform.position = Vector3.Lerp(circle.transform.position, desiredPosition + circleOffset, Time.deltaTime * moveSpeed);
+        markerController.Move(desiredPosition, moveSpeed);
 
         if (Vector3.Distance(selectedStoneGO.transform.position, desiredPosition) < 0.01f) {
             selectedStoneGO.transform.position = desiredPosition;
@@ -128,11 +100,5 @@ public class StoneController : MonoBehaviour
         }
     }
 
-    private void SmoothScaleCircle() {
-        circle.transform.localScale += targetCircleScale.sqrMagnitude > circle.transform.localScale.sqrMagnitude ? new Vector3(1f, 1f, 1f) : -new Vector3(1f, 1f, 1f);
 
-        if(Mathf.Abs(circle.transform.localScale.sqrMagnitude - targetCircleScale.sqrMagnitude) <= 0.01f) {
-            CancelInvoke(nameof(SmoothScaleCircle));
-        }
-    }
 }

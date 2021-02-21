@@ -130,35 +130,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1263153150}
     m_Modifications:
-    - target: {fileID: 120385671466099577, guid: 94c886f18ba5ca746a263a0422d51b1b,
-        type: 3}
-      propertyPath: m_Name
-      value: Circle
+    - target: {fileID: 437545697, guid: 94c886f18ba5ca746a263a0422d51b1b, type: 3}
+      propertyPath: shrinkSpeed
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 120385671466099577, guid: 94c886f18ba5ca746a263a0422d51b1b,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Name
+      value: Marker
       objectReference: {fileID: 0}
     - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
         type: 3}
@@ -212,32 +196,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94c886f18ba5ca746a263a0422d51b1b, type: 3}
---- !u!1 &437545693 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 120385671466099577, guid: 94c886f18ba5ca746a263a0422d51b1b,
-    type: 3}
-  m_PrefabInstance: {fileID: 331436790}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &437545696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 783734696205416899, guid: 94c886f18ba5ca746a263a0422d51b1b,
     type: 3}
   m_PrefabInstance: {fileID: 331436790}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &437545697
+--- !u!114 &437545697 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 437545697, guid: 94c886f18ba5ca746a263a0422d51b1b,
+    type: 3}
+  m_PrefabInstance: {fileID: 331436790}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437545693}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2436b3ceba11ac4496add9a9a5d50df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 0.01
-  speed: 5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 1599637534}
+  markerController: {fileID: 437545697}
   stonePrefab: {fileID: 386555724329633962, guid: 3b48d4e8e41ba0642a7105aa96ef42c1,
     type: 3}
   stoneMaterial: {fileID: 2100000, guid: e191ba6652147f343a5ddb5ad67af6c0, type: 2}
@@ -661,7 +638,7 @@ GameObject:
   - component: {fileID: 1263153150}
   - component: {fileID: 1263153151}
   m_Layer: 0
-  m_Name: StoneController
+  m_Name: InputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,10 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2be10bce071f42438dec26ec092ac2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedStoneGO: {fileID: 0}
-  circle: {fileID: 437545693}
-  circleOffset: {x: 0, y: 1.5, z: 0}
-  circleScaleSpeed: 0.0025
+  markerController: {fileID: 437545697}
   moveSpeed: 16
 --- !u!850595691 &1521656229
 LightingSettings:

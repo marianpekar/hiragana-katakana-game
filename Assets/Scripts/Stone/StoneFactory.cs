@@ -6,6 +6,9 @@ public class StoneFactory : MonoBehaviour
     private AudioManager audioManager = null;
 
     [SerializeField]
+    private MarkerController markerController = null;
+
+    [SerializeField]
     private GameObject stonePrefab = null;
 
     [SerializeField]
@@ -80,5 +83,6 @@ public class StoneFactory : MonoBehaviour
         stone.SetAlphabet(alphabet);
         stone.SetSign(sign);
         stone.AudioManager = audioManager;
+        stone.MarkerController = markerController;
     }
 }
