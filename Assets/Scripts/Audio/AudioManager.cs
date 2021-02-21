@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IObserver
 {
+    [SerializeField]
+    private float delayBeforeReadSign = 0.33f;
+
     private AudioSource audioSource;
 
     private Dictionary<Sign, AudioClip> SignSounds = new Dictionary<Sign, AudioClip>();
@@ -19,8 +22,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void ReadSign(Sign sign) {
-        audioSource.clip = SignSounds[sign];
+    public void ReadSign() {
         audioSource.Play();
+    }
+
+    public void OnNotify(ISubject subject)
+    {
+        Stone stone = subject as Stone;
+        if(stone) {
+            audioSource.clip = SignSounds[stone.GetSign()];
+            Invoke(nameof(ReadSign), delayBeforeReadSign);
+        }
     }
 }

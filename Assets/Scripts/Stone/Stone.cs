@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StoneEffectsController))]
-public class Stone : MonoBehaviour
+public class Stone : MonoBehaviour, ISubject
 {
-    public AudioManager AudioManager { get; set; }
-
-    public MarkerController MarkerController { get; set; }
-
     private StoneProperties stoneProperties = new StoneProperties();
 
     private StoneEffectsController stoneEffectsController;
 
     [SerializeField]
     float DelayBeforeDisableAfterDissolve = 10.0f;
-
-    [SerializeField]
-    private float DelayBeforeReadSign = 0.33f;
 
     public bool IsDisolving { get; set; }
 
@@ -40,18 +34,33 @@ public class Stone : MonoBehaviour
     public void Dissolve() {
         IsDisolving = true;
 
-        MarkerController.Shrink();
+        NotifyObservers();
+
         stoneEffectsController.Dissolve();
-        Invoke(nameof(ReadSign), DelayBeforeReadSign);
         Invoke(nameof(Disable), DelayBeforeDisableAfterDissolve);
     }
 
-    private void ReadSign() {
-        AudioManager.ReadSign(stoneProperties.Sign);
-    }
-
-
     private void Disable() {
         this.gameObject.SetActive(false);
+    }
+
+    private List<IObserver> observers = new List<IObserver>();
+
+    public void NotifyObservers()
+    {
+        foreach(var observer in observers) {
+            observer.OnNotify(this);
+        }
+    }
+
+    public void RegisterObserver(IObserver observer)
+    {
+        if(!observers.Contains(observer))
+            observers.Add(observer);
+    }
+
+    public void UnregisterObserver(IObserver observer)
+    {
+        observers.Remove(observer);
     }
 }

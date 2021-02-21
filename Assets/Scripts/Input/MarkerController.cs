@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MarkerController : MonoBehaviour
+public class MarkerController : MonoBehaviour, IObserver
 {
     [SerializeField]
     private Vector3 offset = new Vector3(0, 1.2f, 0);
@@ -67,6 +67,15 @@ public class MarkerController : MonoBehaviour
         if (Mathf.Abs(transform.localScale.sqrMagnitude - targetScale.sqrMagnitude) <= 0.01f)
         {
             CancelInvoke(nameof(SmoothScale));
+        }
+    }
+
+    public void OnNotify(ISubject subject)
+    {
+        Stone stone = subject as Stone;
+        if (stone)
+        {
+            Shrink();
         }
     }
 }

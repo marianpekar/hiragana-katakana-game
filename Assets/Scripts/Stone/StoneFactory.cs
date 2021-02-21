@@ -82,7 +82,8 @@ public class StoneFactory : MonoBehaviour
         var stone = stoneGO.AddComponent<Stone>();
         stone.SetAlphabet(alphabet);
         stone.SetSign(sign);
-        stone.AudioManager = audioManager;
-        stone.MarkerController = markerController;
+
+        stone.RegisterObserver(audioManager);
+        stone.RegisterObserver(markerController);
     }
 }
