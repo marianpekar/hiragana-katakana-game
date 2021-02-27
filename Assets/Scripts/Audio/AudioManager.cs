@@ -7,14 +7,16 @@ public class AudioManager : MonoBehaviour, IObserver
     [SerializeField]
     private float delayBeforeReadSign = 0.33f;
 
-    private AudioSource audioSource;
+    [SerializeField]
+    private AudioSource speechSource;
+
+    [SerializeField]
+    private AudioSource musicSource;
 
     private Dictionary<Sign, AudioClip> SignSounds = new Dictionary<Sign, AudioClip>();
 
     public void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-
         Array signs = Enum.GetValues(typeof(Sign));
         foreach(Sign sign in signs) {
             AudioClip sound = Resources.Load<AudioClip>($"Sounds/{sign}");
@@ -23,14 +25,14 @@ public class AudioManager : MonoBehaviour, IObserver
     }
 
     public void ReadSign() {
-        audioSource.Play();
+        speechSource.Play();
     }
 
     public void OnNotify(ISubject subject, ActionType actionType)
     {
         Stone stone = subject as Stone;
         if(stone) {
-            audioSource.clip = SignSounds[stone.GetSign()];
+            speechSource.clip = SignSounds[stone.GetSign()];
             Invoke(nameof(ReadSign), delayBeforeReadSign);
         }
     }
