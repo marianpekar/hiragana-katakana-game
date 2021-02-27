@@ -16,13 +16,18 @@ public class GameManager : MonoBehaviourSubject
     private void Start()
     {
         stonesPool.Initialize();
-        CreateGame();
+        StartGame();
     }
 
-    private void CreateGame()
+    private void StartGame()
     {
         TakeStonesFromPool();
         PlaceStones();
+
+        foreach (var observer in observers)
+        {
+            observer.OnNotify(this, ActionType.GameStarts);
+        }
     }
 
     public void RestartGame() {
@@ -32,12 +37,10 @@ public class GameManager : MonoBehaviourSubject
             currentStones[i] = null;
         }
 
-        CreateGame();
+        StartGame();
     }
 
     public void EndGame() {
-        Debug.Log("Game ends");
-
         foreach (var observer in observers)
         {
             observer.OnNotify(this, ActionType.GameEnds);

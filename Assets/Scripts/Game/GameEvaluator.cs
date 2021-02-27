@@ -9,7 +9,7 @@ public class GameEvaluator : MonoBehaviour, IObserver
 
     private void Start()
     {
-        NumOfStonesOnBoard = GameManager.GameStonesPairCount * 2;
+        gameManager.RegisterObserver(this);
     }
 
     public void OnNotify(ISubject subject, ActionType actionType)
@@ -19,6 +19,17 @@ public class GameEvaluator : MonoBehaviour, IObserver
         {
             NumOfStonesOnBoard--;
             Evaluate();
+        }
+
+        GameManager gameManager = subject as GameManager;
+        if(gameManager) {
+            if(actionType == ActionType.GameEnds) {
+                Debug.Log("Game Ends");
+            }
+            else if (actionType == ActionType.GameStarts) {
+                Debug.Log("Game Starts");
+                NumOfStonesOnBoard = GameManager.GameStonesPairCount * 2;
+            }
         }
     }
 
