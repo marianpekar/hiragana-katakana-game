@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +13,7 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
 
     private readonly Stopwatch stopwatch = new Stopwatch();
 
-    private void Start()
+    private void Awake()
     {
         gameManager.RegisterObserver(this);
     }
@@ -24,6 +21,11 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
     public void Run()
     {
         stopwatch.Start();
+    }
+
+    public void Reset()
+    {
+        stopwatch.Reset();
     }
 
     public void Stop()
@@ -43,6 +45,7 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
         switch (actionType)
         {
             case ActionType.GameStarts:
+                Reset();
                 Run();
                 break;
             case ActionType.GameEnds:
