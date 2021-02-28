@@ -26,6 +26,10 @@ public class AudioManager : MonoBehaviour, IObserver
         musicSource.Play();
     }
 
+    public void SetMusicVolume(float volume) {
+        musicSource.volume = volume;
+    }
+
     public void ReadSign() {
         speechSource.Play();
     }
