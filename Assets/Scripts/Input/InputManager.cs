@@ -4,7 +4,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     [SerializeField]
-    private MarkerController markerController;
+    private MarkerController markerController = null;
 
     [SerializeField]
     private float moveSpeed = 12f;
@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 
     private Camera mainCamera;
 
-    private int stoneLayerMask = ~3; // = Stone, see Layers
+    private readonly int stoneLayerMask = ~3; // = Stone, see Layers
 
     private void Start()
     {

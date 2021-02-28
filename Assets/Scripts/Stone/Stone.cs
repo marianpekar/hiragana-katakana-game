@@ -3,7 +3,7 @@
 [RequireComponent(typeof(StoneEffectsController))]
 public class Stone : MonoBehaviourSubject
 {
-    private StoneProperties stoneProperties = new StoneProperties();
+    private readonly StoneProperties stoneProperties = new StoneProperties();
 
     private StoneEffectsController stoneEffectsController;
 

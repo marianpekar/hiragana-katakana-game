@@ -4,10 +4,13 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour, IObserver
 {
     [SerializeField]
-    GameManager gameManager;
+    GameManager gameManager = null;
 
     [SerializeField]
-    Button reloadButton;
+    Button reloadButton = null;
+
+    [SerializeField]
+    Button exitButton = null;
 
     void Awake()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviourSubject
 {
     [SerializeField]
-    private StonesPool stonesPool;
+    private StonesPool stonesPool = null;
 
     public const int GameStonesPairCount = 16;
     private const int StonesPerRow = 4;

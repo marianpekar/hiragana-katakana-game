@@ -8,12 +8,12 @@ public class AudioManager : MonoBehaviour, IObserver
     private float delayBeforeReadSign = 0.33f;
 
     [SerializeField]
-    private AudioSource speechSource;
+    private AudioSource speechSource = null;
 
     [SerializeField]
-    private AudioSource musicSource;
+    private AudioSource musicSource = null;
 
-    private Dictionary<Sign, AudioClip> SignSounds = new Dictionary<Sign, AudioClip>();
+    private readonly Dictionary<Sign, AudioClip> SignSounds = new Dictionary<Sign, AudioClip>();
 
     public void Start()
     {
@@ -22,6 +22,8 @@ public class AudioManager : MonoBehaviour, IObserver
             AudioClip sound = Resources.Load<AudioClip>($"Sounds/{sign}");
             SignSounds.Add(sign, sound);
         }
+
+        musicSource.Play();
     }
 
     public void ReadSign() {
