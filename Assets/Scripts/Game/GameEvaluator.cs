@@ -7,7 +7,7 @@ public class GameEvaluator : MonoBehaviour, IObserver
 
     private int NumOfStonesOnBoard;
 
-    private void Start()
+    private void Awake()
     {
         gameManager.RegisterObserver(this);
     }
