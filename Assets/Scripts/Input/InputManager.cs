@@ -35,17 +35,19 @@ public class InputManager : MonoBehaviour
 
         if (!selectedStoneGO) return;
 
-        if (Input.GetKey(KeyCode.W)) {
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) 
+        {
             StartMove(Vector3.forward);
         } 
-        else if (Input.GetKey(KeyCode.S)) {
+        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) 
+        {
             StartMove(Vector3.back);
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             StartMove(Vector3.left);
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             StartMove(Vector3.right);
         }
