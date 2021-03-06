@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Volume = AudioManager.Volume;
+
 public class UIMusicVolumeController : MonoBehaviour
 {
     [SerializeField] private Sprite volumeMute = null;
@@ -14,13 +16,8 @@ public class UIMusicVolumeController : MonoBehaviour
     [SerializeField] 
     private AudioManager audioManager = null;
 
-    private enum Volume {
-        Mute,
-        Volume25,
-        Volume50,
-        Volume75,
-        Max
-    }
+    [SerializeField]
+    private PersistenceManager persistenceManager = null;
 
     private enum Direction {
         Up, 
@@ -34,7 +31,7 @@ public class UIMusicVolumeController : MonoBehaviour
 
     private readonly Dictionary<Volume, VolumeData> volumeData = new Dictionary<Volume, VolumeData>();
 
-    private Volume currentVolume = Volume.Max;
+    private Volume currentVolume;
     private Direction currentDirection = Direction.Down;
 
     private void Start()
@@ -46,6 +43,10 @@ public class UIMusicVolumeController : MonoBehaviour
         volumeData.Add(Volume.Mute,     new VolumeData { Icon = volumeMute, Value = 0f   });
 
         volumeButton.onClick.AddListener(ChangeVolume);
+
+        currentVolume = persistenceManager.Volume;
+        SetVolume();
+        UpdateUI();
     }
 
     private void ChangeVolume()
@@ -64,7 +65,16 @@ public class UIMusicVolumeController : MonoBehaviour
             currentVolume -= 2;
         }
 
+        SetVolume();
+        UpdateUI();
+        persistenceManager.Volume = currentVolume;
+    }
+
+    private void UpdateUI() {
         volumeButton.image.sprite = volumeData[currentVolume].Icon;
-        audioManager.SetMusicVolume(volumeData[currentVolume].Value);   
+    }
+
+    private void SetVolume() {
+        audioManager.SetMusicVolume(volumeData[currentVolume].Value);
     }
 }

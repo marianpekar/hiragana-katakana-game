@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour, IObserver
 {
+    public enum Volume
+    {
+        Mute,
+        Volume25,
+        Volume50,
+        Volume75,
+        Max
+    }
+
     [SerializeField]
     private float delayBeforeReadSign = 0.33f;
 
