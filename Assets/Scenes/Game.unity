@@ -528,7 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1149075335}
   reloadButton: {fileID: 649082878}
-  exitButton: {fileID: 0}
+  exitButton: {fileID: 66471661}
 --- !u!1001 &331436790
 PrefabInstance:
   m_ObjectHideFlags: 0

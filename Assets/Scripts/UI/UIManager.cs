@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour, IObserver
         gameManager.RegisterObserver(this);
 
         reloadButton.onClick.AddListener(gameManager.RestartGame);
+        exitButton.onClick.AddListener(() => SceneLoader.LoadMenu());
     }
 
     public void OnNotify(ISubject subject, ActionType actionType = ActionType.Unspeficied)
@@ -33,5 +34,4 @@ public class UIManager : MonoBehaviour, IObserver
                 break;
         }
     }
-
 }
