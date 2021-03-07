@@ -24,10 +24,8 @@ public class GameEvaluator : MonoBehaviour, IObserver
         GameManager gameManager = subject as GameManager;
         if(gameManager) {
             if(actionType == ActionType.GameEnds) {
-                Debug.Log("Game Ends");
             }
             else if (actionType == ActionType.GameStarts) {
-                Debug.Log("Game Starts");
                 NumOfStonesOnBoard = GameManager.GameStonesPairCount * 2;
             }
         }
