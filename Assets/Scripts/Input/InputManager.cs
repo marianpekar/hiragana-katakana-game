@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 
     private Camera mainCamera;
 
-    private readonly int stoneLayerMask = ~3; // = Stone, see Layers
+    private readonly int stoneLayerMask = 1 << 3; // 3 = Stone
 
     private void Start()
     {
