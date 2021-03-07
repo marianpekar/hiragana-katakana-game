@@ -1,6 +1,7 @@
-using UnityEngine;
+using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine;
 
 using Volume = AudioManager.Volume;
 
@@ -12,6 +13,7 @@ public class PersistenceManager :  MonoBehaviour
     private class GameData
     {
         public Volume volume = Volume.Max;
+        public TimeSpan bestTime = TimeSpan.Zero;
     }
 
     private GameData gameData;
@@ -24,11 +26,18 @@ public class PersistenceManager :  MonoBehaviour
         set => gameData.volume = value;
     }
 
+    public TimeSpan BestTime {
+        get => gameData.bestTime;
+        set => gameData.bestTime = value;
+    }
+
     private void Awake()
     {
         gameDataPath = Path.Combine(Application.persistentDataPath, gameDataFileName);
 
         LoadGameData();
+
+        Debug.Log(gameData.bestTime);
     }
 
     private void LoadGameData() {

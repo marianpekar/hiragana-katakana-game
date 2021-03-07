@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,9 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
 
     [SerializeField]
     private Text stopwatchText = null;
+
+    [SerializeField]
+    private PersistenceManager persistenceManager = null;
 
     private readonly Stopwatch stopwatch = new Stopwatch();
 
@@ -49,10 +53,17 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
                 Run();
                 break;
             case ActionType.GameEnds:
+                EvaluateTime();
                 Stop();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void EvaluateTime() {
+        if(stopwatch.Elapsed < persistenceManager.BestTime || persistenceManager.BestTime.Equals(TimeSpan.Zero)) {
+            persistenceManager.BestTime = stopwatch.Elapsed;
         }
     }
 }
