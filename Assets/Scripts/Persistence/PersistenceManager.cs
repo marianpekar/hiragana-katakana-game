@@ -36,8 +36,6 @@ public class PersistenceManager :  MonoBehaviour
         gameDataPath = Path.Combine(Application.persistentDataPath, gameDataFileName);
 
         LoadGameData();
-
-        Debug.Log(gameData.bestTime);
     }
 
     private void LoadGameData() {
