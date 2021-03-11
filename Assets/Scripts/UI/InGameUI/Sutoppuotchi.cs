@@ -12,13 +12,14 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
     [SerializeField]
     private Text stopwatchText = null;
 
-    [SerializeField]
-    private PersistenceManager persistenceManager = null;
+    private PersistenceManager persistenceManager;
 
     private readonly Stopwatch stopwatch = new Stopwatch();
 
     private void Awake()
     {
+        persistenceManager = PersistenceManager.Instance;
+
         gameManager.RegisterObserver(this);
     }
 

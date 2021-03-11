@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour, IObserver
+public class InGameUIManager : MonoBehaviour, IObserver
 {
     [SerializeField]
     GameManager gameManager = null;

@@ -31,8 +31,18 @@ public class PersistenceManager :  MonoBehaviour
         set => gameData.bestTime = value;
     }
 
+    public static PersistenceManager Instance;
+
     private void Awake()
     {
+        if (!Instance) {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        } 
+        else {
+            Destroy(this.gameObject);
+        }
+
         gameDataPath = Path.Combine(Application.persistentDataPath, gameDataFileName);
 
         LoadGameData();

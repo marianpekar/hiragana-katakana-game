@@ -16,7 +16,6 @@ public class UIMusicVolumeController : MonoBehaviour
     [SerializeField] 
     private AudioManager audioManager = null;
 
-    [SerializeField]
     private PersistenceManager persistenceManager = null;
 
     private enum Direction {
@@ -33,6 +32,11 @@ public class UIMusicVolumeController : MonoBehaviour
 
     private Volume currentVolume;
     private Direction currentDirection = Direction.Down;
+
+    private void Awake()
+    {
+        persistenceManager = PersistenceManager.Instance;
+    }
 
     private void Start()
     {
