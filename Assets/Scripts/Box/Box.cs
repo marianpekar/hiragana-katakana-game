@@ -5,7 +5,7 @@ public class Box : MonoBehaviour, IObserver
     [SerializeField]
     private GameManager gameManager = null;
 
-    private const int BoxTexturesCount = 5;
+    private const int BoxTexturesCount = 10;
     private readonly Material[] materials = new Material[BoxTexturesCount];
     private MeshRenderer meshRenderer;
 
