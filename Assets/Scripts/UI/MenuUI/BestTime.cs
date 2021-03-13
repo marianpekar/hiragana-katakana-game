@@ -22,7 +22,7 @@ public class BestTime : MonoBehaviour
     {
         bestTime = PersistenceManager.Instance.BestTime;
 
-        if (bestTime != TimeSpan.Zero)
+        if (!bestTime.Equals(TimeSpan.Zero))
         {
             bestTimeUIElements.text.text = string.Format("{0:00}\n{1:00}", bestTime.Minutes, bestTime.Seconds);
             EnableUI(true);

@@ -12,6 +12,9 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
     [SerializeField]
     private Text stopwatchText = null;
 
+    [SerializeField]
+    private Trophy trophy = null;
+
     private PersistenceManager persistenceManager;
 
     private readonly Stopwatch stopwatch = new Stopwatch();
@@ -38,11 +41,17 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
         stopwatch.Stop();
     }
 
-    private void FixedUpdate()
+    private void Start()
     {
+        InvokeRepeating(nameof(Step), 1.0f, 1.0f);
+    }
+
+    private void Step() {
         if (!stopwatch.IsRunning) return;
 
         stopwatchText.text = string.Format("{0:00}\n{1:00}", stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds);
+
+        EvaluateTrophy();
     }
 
     public void OnNotify(ISubject subject, ActionType actionType = ActionType.Unspeficied)
@@ -65,6 +74,20 @@ public class Sutoppuotchi : MonoBehaviour, IObserver
     private void EvaluateTime() {
         if(stopwatch.Elapsed < persistenceManager.BestTime || persistenceManager.BestTime.Equals(TimeSpan.Zero)) {
             persistenceManager.BestTime = stopwatch.Elapsed;
+        }
+    }
+
+    private void EvaluateTrophy() {
+        if(persistenceManager.BestTime.Equals(TimeSpan.Zero)) {
+            return;
+        }
+
+        if (stopwatch.Elapsed > persistenceManager.BestTime && trophy.IsVisible)
+        {
+            trophy.Show(false);
+        }
+        else if (stopwatch.Elapsed < persistenceManager.BestTime && !trophy.IsVisible) {
+            trophy.Show(true);
         }
     }
 }
