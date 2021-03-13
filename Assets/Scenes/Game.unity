@@ -384,7 +384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -27.5, y: 28.4}
+  m_AnchoredPosition: {x: -27.5, y: 28.400024}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &66471660
@@ -782,7 +782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -110.9, y: 28.4}
+  m_AnchoredPosition: {x: -110.900024, y: 28.400024}
   m_SizeDelta: {x: 28, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &649082877
@@ -1011,7 +1011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -70.7, y: 28.4}
+  m_AnchoredPosition: {x: -70.69995, y: 28.400024}
   m_SizeDelta: {x: 28, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &837709870
@@ -2131,7 +2131,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0, g: 0.046318054, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 234.7
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -2224,7 +2224,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.7264151, g: 0, b: 0.5390787, a: 1}
   m_Intensity: 1
-  m_Range: 234.7
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -2354,5 +2354,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4550348345677623768, guid: cb419f0f427b8844fba4cfe68eeb977b,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1149075335}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb419f0f427b8844fba4cfe68eeb977b, type: 3}
