@@ -5,12 +5,17 @@ public class Box : MonoBehaviour, IObserver
     [SerializeField]
     private GameManager gameManager = null;
 
+    private PersistenceManager persistenceManager;
+
     private const int BoxTexturesCount = 10;
     private readonly Material[] materials = new Material[BoxTexturesCount];
     private MeshRenderer meshRenderer;
 
+    private int currentBoxTextureIndex;
+
     private void Awake()
     {
+        persistenceManager = PersistenceManager.Instance;
         gameManager.RegisterObserver(this);
     }
 
@@ -25,16 +30,25 @@ public class Box : MonoBehaviour, IObserver
             material.SetTexture("_MainTex", texture);
             materials[i] = material;
         }
+
+        currentBoxTextureIndex = persistenceManager.LastBoxTextureIndex;
     }
 
     public void OnNotify(ISubject subject, ActionType actionType = ActionType.Unspeficied)
     {
         if (actionType.Equals(ActionType.GameStarts)) {
-            SetRandomMaterial();
+            SetNextMaterial();
         }
     }
 
-    private void SetRandomMaterial() {
-        meshRenderer.material = materials[Random.Range(0, BoxTexturesCount)];
+    private void SetNextMaterial() {
+        currentBoxTextureIndex++;
+
+        if (currentBoxTextureIndex >= BoxTexturesCount) {
+            currentBoxTextureIndex = 0;
+        }
+
+        meshRenderer.material = materials[currentBoxTextureIndex];
+        persistenceManager.LastBoxTextureIndex = currentBoxTextureIndex;
     }
 }

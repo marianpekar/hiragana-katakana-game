@@ -14,6 +14,7 @@ public class PersistenceManager :  MonoBehaviour
     {
         public Volume volume = Volume.Max;
         public TimeSpan bestTime = TimeSpan.Zero;
+        public int lastBoxTextureIndex = 0;
     }
 
     private GameData gameData;
@@ -29,6 +30,11 @@ public class PersistenceManager :  MonoBehaviour
     public TimeSpan BestTime {
         get => gameData.bestTime;
         set => gameData.bestTime = value;
+    }
+
+    public int LastBoxTextureIndex {
+        get => gameData.lastBoxTextureIndex;
+        set => gameData.lastBoxTextureIndex = value;
     }
 
     public static PersistenceManager Instance;
